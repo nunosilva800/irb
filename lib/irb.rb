@@ -844,6 +844,17 @@ module IRB
           end
         end
       end
+
+      screen_height, screen_width = Reline::IOGate.get_screen_size
+      # exclude the input line from calculation
+      output_exceeds_screen = (screen_height - 1) * screen_width < Reline::Unicode.calculate_width(str, true)
+
+      if output_exceeds_screen
+        RDoc::RI::Driver.new.page do |io|
+          io.write(str)
+        end
+      end
+
       if multiline_p && @context.newline_before_multiline_output?
         printf @context.return_format, "\n#{str}"
       else
