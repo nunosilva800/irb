@@ -361,7 +361,7 @@ module TestIRB
       # IRB's commands should still be listed
       assert_match(/show_cmds\s+List all available commands and their description\./, output)
       # debug gem's commands should be appended at the end
-      assert_match(/Debugging \(from debug\.gem\)\s+### Control flow/, output)
+      assert_match(/\[Debugging Commands\] \(from debug\.gem\)\s+### Control flow/, output)
     end
 
     def test_input_is_evaluated_in_the_context_of_the_current_thread

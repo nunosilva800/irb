@@ -4,6 +4,8 @@
 #   	by Keiju ISHITSUKA(keiju@ruby-lang.org)
 #
 
+require "irb/helper_method"
+
 module IRB # :nodoc:
   # Installs the default irb extensions command bundle.
   module ExtendCommandBundle
@@ -175,11 +177,6 @@ module IRB # :nodoc:
       ],
 
       [
-        :irb_measure, :Measure, "cmd/measure",
-        [:measure, NO_OVERRIDE],
-      ],
-
-      [
         :irb_show_source, :ShowSource, "cmd/show_source",
         [:show_source, NO_OVERRIDE],
       ],
@@ -307,6 +304,24 @@ module IRB # :nodoc:
         end
       end
     end
+
+    def self.install_helper_methods
+      HelperMethod.helper_methods.each do |name, helper_method_class|
+        define_method name do |*args, **opts, &block|
+          helper_ivar = "@_helper_method_#{name}".to_sym
+          helper = instance_variable_get(helper_ivar)
+
+          unless helper
+            helper = helper_method_class.new
+            instance_variable_set(helper_ivar, helper)
+          end
+
+          helper.execute(*args, **opts, &block)
+        end
+      end
+    end
+
+    install_helper_methods
 
     install_extend_commands
   end

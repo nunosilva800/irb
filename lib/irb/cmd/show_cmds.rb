@@ -21,8 +21,6 @@ module IRB
           commands_grouped_by_categories.delete("Debugging")
           # Remove the `help` command as it's delegated to the debugger
           commands_grouped_by_categories["Context"].delete_if { |cmd| cmd[:display_name] == :help }
-          # Add an empty "Debugging (from debug.gem)" category at the end
-          commands_grouped_by_categories["Debugging (from debug.gem)"] = []
         end
 
         longest_cmd_name_length = commands_info.map { |c| c[:display_name].length }.max
@@ -39,8 +37,28 @@ module IRB
           output.puts
         end
 
+        helpers_info = IRB::HelperMethod.all_helper_methods_info
+
+        unless helpers_info.empty?
+          output.puts(Color.colorize("[Helper Methods]", [:BOLD]) + "\n\n")
+        end
+
+        helpers_grouped_by_categories = helpers_info.group_by { |cmd| cmd[:category] }
+        longest_helper_name_length = helpers_info.map { |c| c[:display_name].length }.max
+
+        helpers_grouped_by_categories.each do |category, helpers|
+          output.puts Color.colorize(category, [:BOLD])
+
+          helpers.each do |helper|
+            output.puts "  #{helper[:display_name].to_s.ljust(longest_helper_name_length)}    #{helper[:description]}"
+          end
+
+          output.puts
+        end
+
         # Append the debugger help at the end
         if irb_context.with_debugger
+          output.puts(Color.colorize("[Debugging Commands] (from debug.gem)", [:BOLD]) + "\n\n")
           output.puts DEBUGGER__.help
         end
 
