@@ -54,17 +54,17 @@ require_relative "irb/easter-egg"
 #
 # * cwws
 #   * Show the current workspace.
-# * cb, cws, chws
+# * chws
 #   * Change the current workspace to an object.
-# * bindings, workspaces
+# * workspaces
 #   * Show workspaces.
-# * pushb, pushws
+# * pushws
 #   * Push an object to the workspace stack.
-# * popb, popws
+# * popws
 #   * Pop a workspace from the workspace stack.
-# * load
+# * irb_load
 #   * Load a Ruby file.
-# * require
+# * irb_require
 #   * Require a Ruby file.
 # * source
 #   * Loads a given file in the current session.
@@ -76,23 +76,53 @@ require_relative "irb/easter-egg"
 #   * Switches to the session of the given number.
 # * kill
 #   * Kills the session with the given number.
-# * help
-#   * Enter the mode to look up RI documents.
 # * irb_info
 #   * Show information about IRB.
-# * ls
-#   * Show methods, constants, and variables.
-#     -g [query] or -G [query] allows you to filter out the output.
-# * measure
-#   * measure enables the mode to measure processing time. measure :off disables it.
-# * $, show_source
-#   * Show the source code of a given method or constant.
-# * @, whereami
-#   * Show the source code around binding.irb again.
+# * show_cmds
+#   * List all available commands and their description.
+#
+# === Debugging
+#
 # * debug
 #   * Start the debugger of debug.gem.
-# * break, delete, next, step, continue, finish, backtrace, info, catch
-#   * Start the debugger of debug.gem and run the command on it.
+# * break
+#   * Start the debugger of debug.gem and run its `break` command.
+# * catch
+#   * Start the debugger of debug.gem and run its `catch` command.
+# * next
+#   * Start the debugger of debug.gem and run its `next` command.
+# * delete
+#   * Start the debugger of debug.gem and run its `delete` command.
+# * step
+#   * Start the debugger of debug.gem and run its `step` command.
+# * continue
+#   * Start the debugger of debug.gem and run its `continue` command.
+# * finish
+#   * Start the debugger of debug.gem and run its `finish` command.
+# * backtrace
+#   * Start the debugger of debug.gem and run its `backtrace` command.
+# * info
+#   * Start the debugger of debug.gem and run its `info` command.
+#
+# === Misc
+#
+# * edit
+#   * Open a file with the editor command defined with `ENV["EDITOR"]`.
+# * measure
+#   * `measure` enables the mode to measure processing time. `measure :off` disables it.
+#
+# === Context
+#
+# * help
+#   * [DEPRECATED] Enter the mode to look up RI documents.
+# * show_doc
+#   * Enter the mode to look up RI documents.
+# * ls
+#   * Show methods, constants, and variables. `-g [query]` or `-G [query]` allows you to filter out the output.
+# * show_source
+#   * Show the source code of a given method or constant.
+# * whereami
+#   * Show the source code around binding.irb again.
 #
 # == Configuration
 #
